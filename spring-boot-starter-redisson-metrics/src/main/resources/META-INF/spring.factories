@@ -1,0 +1,2 @@
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+metrics.spring.boot.RedmeterAutoConfiguration

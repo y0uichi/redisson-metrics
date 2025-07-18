@@ -1,0 +1,266 @@
+version: '3'
+
+services:
+  redis-master-1:
+    image: redis
+    container_name: redis-master-1
+    command: redis-server /usr/local/etc/redis/redis.conf --port 6379 --cluster-enabled yes --cluster-config-file nodes.conf --cluster-node-timeout 5000 --appendonly yes --bind 0.0.0.0 --cluster-announce-ip host.docker.internal --cluster-announce-port 6379 --cluster-announce-bus-port 16379
+    ports:
+      - "6379:6379"
+      - "16379:16379"
+    networks:
+      - redis-cluster
+    deploy:
+      resources:
+        limits:
+          cpus: '0.01'
+          memory: 32M
+        reservations:
+          cpus: '0.01'
+          memory: 32M
+    volumes:
+      - ./prometheus/redis.conf:/usr/local/etc/redis/redis.conf
+  redis-master-2:
+    image: redis
+    container_name: redis-master-2
+    command: redis-server /usr/local/etc/redis/redis.conf --port 6379 --cluster-enabled yes --cluster-config-file nodes.conf --cluster-node-timeout 5000 --appendonly yes --bind 0.0.0.0 --cluster-announce-ip host.docker.internal --cluster-announce-port 6380 --cluster-announce-bus-port 16380
+    ports:
+      - "6380:6379"
+      - "16380:16379"
+    networks:
+      - redis-cluster
+    deploy:
+      resources:
+        limits:
+          cpus: '0.01'
+          memory: 32M
+        reservations:
+          cpus: '0.01'
+          memory: 32M
+    volumes:
+      - ./prometheus/redis.conf:/usr/local/etc/redis/redis.conf
+  redis-master-3:
+    image: redis
+    container_name: redis-master-3
+    command: redis-server /usr/local/etc/redis/redis.conf --port 6379 --cluster-enabled yes --cluster-config-file nodes.conf --cluster-node-timeout 5000 --appendonly yes --bind 0.0.0.0 --cluster-announce-ip host.docker.internal --cluster-announce-port 6381 --cluster-announce-bus-port 16381
+    ports:
+      - "6381:6379"
+      - "16381:16379"
+    networks:
+      - redis-cluster
+    deploy:
+      resources:
+        limits:
+          cpus: '0.01'
+          memory: 32M
+        reservations:
+          cpus: '0.01'
+          memory: 32M
+    volumes:
+      - ./prometheus/redis.conf:/usr/local/etc/redis/redis.conf
+  redis-slave-1:
+    image: redis
+    container_name: redis-slave-1
+    command: redis-server /usr/local/etc/redis/redis.conf --port 6379 --cluster-enabled yes --cluster-config-file nodes.conf --cluster-node-timeout 5000 --appendonly yes --bind 0.0.0.0 --cluster-announce-ip host.docker.internal --cluster-announce-port 6382 --cluster-announce-bus-port 16382
+    ports:
+      - "6382:6379"
+      - "16382:16379"
+    networks:
+      - redis-cluster
+    deploy:
+      resources:
+        limits:
+          cpus: '0.01'
+          memory: 32M
+        reservations:
+          cpus: '0.01'
+          memory: 32M
+    volumes:
+      - ./prometheus/redis.conf:/usr/local/etc/redis/redis.conf
+  redis-slave-2:
+    image: redis
+    container_name: redis-slave-2
+    command: redis-server /usr/local/etc/redis/redis.conf --port 6379 --cluster-enabled yes --cluster-config-file nodes.conf --cluster-node-timeout 5000 --appendonly yes --bind 0.0.0.0 --cluster-announce-ip host.docker.internal --cluster-announce-port 6383 --cluster-announce-bus-port 16383
+    ports:
+      - "6383:6379"
+      - "16383:16379"
+    networks:
+      - redis-cluster
+    deploy:
+      resources:
+        limits:
+          cpus: '0.01'
+          memory: 32M
+        reservations:
+          cpus: '0.01'
+          memory: 32M
+    volumes:
+      - ./prometheus/redis.conf:/usr/local/etc/redis/redis.conf
+  redis-slave-3:
+    image: redis
+    container_name: redis-slave-3
+    command: redis-server /usr/local/etc/redis/redis.conf --port 6379 --cluster-enabled yes --cluster-config-file nodes.conf --cluster-node-timeout 5000 --appendonly yes --bind 0.0.0.0 --cluster-announce-ip host.docker.internal --cluster-announce-port 6384 --cluster-announce-bus-port 16384
+    ports:
+      - "6384:6379"
+      - "16384:16379"
+    networks:
+      - redis-cluster
+    deploy:
+      resources:
+        limits:
+          cpus: '0.01'
+          memory: 32M
+        reservations:
+          cpus: '0.01'
+          memory: 32M
+    volumes:
+      - ./prometheus/redis.conf:/usr/local/etc/redis/redis.conf
+  redis-slave-4:
+    image: redis
+    container_name: redis-slave-4
+    command: redis-server /usr/local/etc/redis/redis.conf --port 6379 --cluster-enabled yes --cluster-config-file nodes.conf --cluster-node-timeout 5000 --appendonly yes --bind 0.0.0.0 --cluster-announce-ip host.docker.internal --cluster-announce-port 6385 --cluster-announce-bus-port 16385
+    ports:
+      - "6385:6379"
+      - "16385:16379"
+    networks:
+      - redis-cluster
+    deploy:
+      resources:
+        limits:
+          cpus: '0.01'
+          memory: 32M
+        reservations:
+          cpus: '0.01'
+          memory: 32M
+    volumes:
+      - ./prometheus/redis.conf:/usr/local/etc/redis/redis.conf
+  redis-slave-5:
+    image: redis
+    container_name: redis-slave-5
+    command: redis-server /usr/local/etc/redis/redis.conf --port 6379 --cluster-enabled yes --cluster-config-file nodes.conf --cluster-node-timeout 5000 --appendonly yes --bind 0.0.0.0 --cluster-announce-ip host.docker.internal --cluster-announce-port 6386 --cluster-announce-bus-port 16386
+    ports:
+      - "6386:6379"
+      - "16386:16379"
+    networks:
+      - redis-cluster
+    deploy:
+      resources:
+        limits:
+          cpus: '0.01'
+          memory: 32M
+        reservations:
+          cpus: '0.01'
+          memory: 32M
+    volumes:
+      - ./prometheus/redis.conf:/usr/local/etc/redis/redis.conf
+  redis-slave-6:
+    image: redis
+    container_name: redis-slave-6
+    command: redis-server /usr/local/etc/redis/redis.conf --port 6379 --cluster-enabled yes --cluster-config-file nodes.conf --cluster-node-timeout 5000 --appendonly yes --bind 0.0.0.0 --cluster-announce-ip host.docker.internal --cluster-announce-port 6387 --cluster-announce-bus-port 16387
+    ports:
+      - "6387:6379"
+      - "16387:16379"
+    networks:
+      - redis-cluster
+    deploy:
+      resources:
+        limits:
+          cpus: '0.01'
+          memory: 32M
+        reservations:
+          cpus: '0.01'
+          memory: 32M
+    volumes:
+      - ./prometheus/redis.conf:/usr/local/etc/redis/redis.conf
+  redis-slave-7:
+    image: redis
+    container_name: redis-slave-7
+    command: redis-server /usr/local/etc/redis/redis.conf --port 6379 --cluster-enabled yes --cluster-config-file nodes.conf --cluster-node-timeout 5000 --appendonly yes --bind 0.0.0.0 --cluster-announce-ip host.docker.internal --cluster-announce-port 6388 --cluster-announce-bus-port 16388
+    ports:
+      - "6388:6379"
+      - "16388:16379"
+    networks:
+      - redis-cluster
+    deploy:
+      resources:
+        limits:
+          cpus: '0.01'
+          memory: 32M
+        reservations:
+          cpus: '0.01'
+          memory: 32M
+    volumes:
+      - ./prometheus/redis.conf:/usr/local/etc/redis/redis.conf
+  redis-slave-8:
+    image: redis
+    container_name: redis-slave-8
+    command: redis-server /usr/local/etc/redis/redis.conf --port 6379 --cluster-enabled yes --cluster-config-file nodes.conf --cluster-node-timeout 5000 --appendonly yes --bind 0.0.0.0 --cluster-announce-ip host.docker.internal --cluster-announce-port 6389 --cluster-announce-bus-port 16389
+    ports:
+      - "6389:6379"
+      - "16389:16379"
+    networks:
+      - redis-cluster
+    deploy:
+      resources:
+        limits:
+          cpus: '0.01'
+          memory: 32M
+        reservations:
+          cpus: '0.01'
+          memory: 32M
+    volumes:
+      - ./prometheus/redis.conf:/usr/local/etc/redis/redis.conf
+  redis-slave-9:
+    image: redis
+    container_name: redis-slave-9
+    command: redis-server /usr/local/etc/redis/redis.conf --port 6379 --cluster-enabled yes --cluster-config-file nodes.conf --cluster-node-timeout 5000 --appendonly yes --bind 0.0.0.0 --cluster-announce-ip host.docker.internal --cluster-announce-port 6390 --cluster-announce-bus-port 16390
+    ports:
+      - "6390:6379"
+      - "16390:16379"
+    networks:
+      - redis-cluster
+    deploy:
+      resources:
+        limits:
+          cpus: '0.01'
+          memory: 32M
+        reservations:
+          cpus: '0.01'
+          memory: 32M
+    volumes:
+      - ./prometheus/redis.conf:/usr/local/etc/redis/redis.conf
+  prometheus:
+    image: prom/prometheus:latest
+    container_name: prometheus
+    ports:
+      - "9090:9090"
+    volumes:
+      - ./prometheus:/etc/prometheus
+      - prometheus_data:/prometheus
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yml'
+      - '--storage.tsdb.path=/prometheus'
+      - '--web.console.libraries=/usr/share/prometheus/console_libraries'
+      - '--web.console.templates=/usr/share/prometheus/consoles'
+    restart: unless-stopped
+
+  grafana:
+    image: grafana/grafana:latest
+    container_name: grafana
+    ports:
+      - "3000:3000"
+    volumes:
+      - grafana_data:/var/lib/grafana
+    environment:
+      - GF_SECURITY_ADMIN_USER=admin
+      - GF_SECURITY_ADMIN_PASSWORD=admin
+    depends_on:
+      - prometheus
+    restart: unless-stopped
+networks:
+  redis-cluster:
+    driver: bridge
+
+volumes:
+  prometheus_data:
+  grafana_data:
