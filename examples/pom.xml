@@ -8,8 +8,13 @@
         <artifactId>redisson-metrics-parent</artifactId>
         <version>1.0-SNAPSHOT</version>
     </parent>
+    <modules>
+        <module>redisson-metrics-spring-example-order</module>
+        <module>redisson-metrics-spring-example-account</module>
+    </modules>
+    <packaging>pom</packaging>
 
-    <artifactId>redisson-metrics-spring-example</artifactId>
+    <artifactId>examples</artifactId>
 
     <properties>
         <maven.compiler.source>8</maven.compiler.source>
@@ -60,7 +65,6 @@
 
     <build>
         <plugins>
-            <!-- Spring Boot Maven 插件 -->
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
@@ -74,7 +78,6 @@
                 </executions>
             </plugin>
 
-            <!-- 编译插件 -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>

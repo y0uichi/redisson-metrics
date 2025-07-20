@@ -10,9 +10,9 @@
     <packaging>pom</packaging>
     <modules>
         <module>redisson-metrics-core</module>
-        <module>redisson-metrics-spring-example</module>
         <module>spring-boot-starter-redisson-metrics</module>
         <module>redisson-metrics</module>
+        <module>examples</module>
     </modules>
 
     <properties>

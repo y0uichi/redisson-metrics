@@ -51,6 +51,12 @@ public class RedmeterAutoConfiguration {
     }
 
     public void initRedmeter() throws NotFoundException, CannotCompileException {
-        RedissonInterceptor.init();
+        try {
+            RedissonInterceptor.init();
+        } catch (NotFoundException | CannotCompileException e) {
+            throw e;
+        } catch (Exception e) {
+            throw new RuntimeException(e.getCause());
+        }
     }
 }

@@ -22,11 +22,16 @@ public class RedissonInterceptor {
 
     static Logger logger = LoggerFactory.getLogger(RedissonInterceptor.class);
 
-    ClassPool cp = ClassPool.getDefault();
+    ClassPool cp;
 
     static final ObjectPool pool = ObjectPool.INSTANCE;
 
     static final RedissonInterceptor INSTANCE = new RedissonInterceptor();
+
+    private RedissonInterceptor() {
+        cp = ClassPool.getDefault();
+        cp.insertClassPath(new LoaderClassPath(Thread.currentThread().getContextClassLoader()));
+    }
 
     protected void interceptCommandDecoder() throws NotFoundException, CannotCompileException {
 
@@ -151,11 +156,15 @@ public class RedissonInterceptor {
     }
 
     public static void init() throws NotFoundException, CannotCompileException {
-        INSTANCE.interceptCommandDecoder();
-        INSTANCE.interceptRedisExecutor();
+        try {
+            INSTANCE.interceptCommandDecoder();
+            INSTANCE.interceptRedisExecutor();
 //        INSTANCE.interceptConnection();
-        INSTANCE.interceptRedisChannelInitializer();
-        INSTANCE.interceptCommandEnter();
-        INSTANCE.interceptClusterConnectionManager();
+            INSTANCE.interceptRedisChannelInitializer();
+            INSTANCE.interceptCommandEnter();
+            INSTANCE.interceptClusterConnectionManager();
+        } catch (Exception e) {
+            throw new RuntimeException(e.getCause());
+        }
     }
 }

@@ -1,6 +1,25 @@
 version: '3'
 
 services:
+  order:
+    image: order
+    deploy:
+      replicas: 3
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+    labels:
+      - "prometheus.scrape=true"
+      - "prometheus.metrics_path=/actuator/prometheus"
+      - "prometheus.port=8080"
+    healthcheck:
+      test: [ "CMD", "curl", "-f", "http://localhost:8080/actuator/health" ]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+
+    networks:
+      - redis-cluster
+
   redis-master-1:
     image: redis
     container_name: redis-master-1
@@ -232,17 +251,23 @@ services:
   prometheus:
     image: prom/prometheus:latest
     container_name: prometheus
+    user: root
     ports:
       - "9090:9090"
     volumes:
       - ./prometheus:/etc/prometheus
       - prometheus_data:/prometheus
+      - /var/run/docker.sock:/var/run/docker.sock
     command:
       - '--config.file=/etc/prometheus/prometheus.yml'
       - '--storage.tsdb.path=/prometheus'
       - '--web.console.libraries=/usr/share/prometheus/console_libraries'
       - '--web.console.templates=/usr/share/prometheus/consoles'
     restart: unless-stopped
+    networks:
+      - redis-cluster
+    depends_on:
+      - order
 
   grafana:
     image: grafana/grafana:latest
@@ -256,6 +281,8 @@ services:
       - GF_SECURITY_ADMIN_PASSWORD=admin
     depends_on:
       - prometheus
+    networks:
+      - redis-cluster
     restart: unless-stopped
 networks:
   redis-cluster:

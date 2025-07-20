@@ -1,0 +1,45 @@
+spring:
+  redis:
+    redisson:
+      config: |
+        clusterServersConfig:
+          idleConnectionTimeout: 10000
+          connectTimeout: 10000
+          timeout: 3000
+          retryAttempts: 3
+          retryInterval: 1500
+          failedSlaveReconnectionInterval: 3000
+          failedSlaveCheckInterval: 60000
+          password: null
+          subscriptionsPerConnection: 5
+          clientName: null
+          loadBalancer: !<org.redisson.connection.balancer.RoundRobinLoadBalancer> {}
+          subscriptionConnectionMinimumIdleSize: 1
+          subscriptionConnectionPoolSize: 10
+          slaveConnectionMinimumIdleSize: 10
+          slaveConnectionPoolSize: 20
+          masterConnectionMinimumIdleSize: 10
+          masterConnectionPoolSize: 20
+          readMode: "SLAVE"
+          subscriptionMode: "SLAVE"
+          nodeAddresses:
+          - "redis://redis-master-1:6379"
+          - "redis://redis-master-2:6379"
+          - "redis://redis-master-3:6379"
+          - "redis://redis-slave-1:6379"
+          - "redis://redis-slave-2:6379"
+          - "redis://redis-slave-3:6379"
+          - "redis://redis-slave-4:6379"
+          - "redis://redis-slave-5:6379"
+          - "redis://redis-slave-6:6379"
+          - "redis://redis-slave-7:6379"
+          - "redis://redis-slave-8:6379"
+          - "redis://redis-slave-9:6379"
+          scanInterval: 1000
+          pingConnectionInterval: 0
+          keepAlive: false
+          tcpNoDelay: false
+        threads: 16
+        nettyThreads: 32
+        codec: !<org.redisson.codec.Kryo5Codec> {}
+        transportMode: "NIO"

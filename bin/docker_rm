@@ -1,0 +1,14 @@
+#!/bin/bash
+
+# Check if a prefix argument is provided
+if [ -z "$1" ]; then
+  echo "Usage: $0 <container_name_prefix>"
+  exit 1
+fi
+
+PREFIX="$1"
+
+# Find and remove all containers whose names contain the specified prefix
+docker ps -a --filter "name=${PREFIX}" --format "{{.ID}}" | xargs -r docker rm -f
+
+echo "All containers with names containing the prefix '${PREFIX}' have been removed."

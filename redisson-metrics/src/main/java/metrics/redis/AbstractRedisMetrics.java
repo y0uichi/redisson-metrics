@@ -90,8 +90,7 @@ public abstract class AbstractRedisMetrics {
             .map(ConnectionPoolStatistic::getActiveConnectionCounter)
             .reduce(0, Integer::sum);
 
-        logger.info("active connections {}", actives);
-
+        // logger.info("active connections {}", actives);
         return actives;
     }
 
