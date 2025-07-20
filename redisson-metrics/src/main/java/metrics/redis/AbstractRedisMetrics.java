@@ -1,19 +1,18 @@
 package metrics.redis;
 
 import io.micrometer.core.instrument.*;
+import io.micrometer.core.instrument.Timer;
 import metrics.infra.ListenerIP;
+import metrics.redis.redisson.connection.ConnectionPoolStatisticPolling;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
 public abstract class AbstractRedisMetrics {
 
-    public final static String METRIC_NAME_PREFIX = "metrics";
+    public final static String METRIC_NAME_PREFIX = "redisson";
 
     public final static String METRIC_NAME_ACTIVE_CONNECTIONS = METRIC_NAME_PREFIX + ".redis.connections.active";
 
@@ -37,15 +36,18 @@ public abstract class AbstractRedisMetrics {
 
     final Map<String, Timer> commandUsages = new ConcurrentHashMap<>();
 
-    List<ConnectionPoolStatistic> poolStatistics = new ArrayList<>();
+    Set<ConnectionPoolStatistic> poolStatistics = new HashSet<>();
 
     final Set<Tag> tags;
 
+    ConnectionPoolStatisticPolling polling;
+
     Logger logger = LoggerFactory.getLogger(AbstractRedisMetrics.class);
 
-    public AbstractRedisMetrics(MeterRegistry registry, Set<Tag> tags) {
+    public AbstractRedisMetrics(MeterRegistry registry, Set<Tag> tags, ConnectionPoolStatisticPolling polling) {
         this.registry = registry;
         this.tags = processTags(tags);
+        this.polling = polling;
 
         activeConnectionGauge = Gauge.builder(
             METRIC_NAME_ACTIVE_CONNECTIONS,
@@ -79,7 +81,7 @@ public abstract class AbstractRedisMetrics {
     }
 
     protected int getActiveConnections() {
-        int actives = this.poolStatistics
+        int actives = this.getPoolStatistics()
             .stream()
             .map(ConnectionPoolStatistic::getActiveConnectionCounter)
             .reduce(0, Integer::sum);
@@ -90,14 +92,14 @@ public abstract class AbstractRedisMetrics {
     }
 
     protected int getTotalConnections() {
-        return this.poolStatistics
+        return this.getPoolStatistics()
             .stream()
             .map(ConnectionPoolStatistic::getConnectionCounter)
             .reduce(0, Integer::sum);
     }
 
     protected int getIdleConnections() {
-        return this.poolStatistics
+        return this.getPoolStatistics()
             .stream()
             .map(ConnectionPoolStatistic::getFreeConnectionCounter)
             .reduce(0, Integer::sum);
@@ -140,7 +142,7 @@ public abstract class AbstractRedisMetrics {
         );
     }
 
-    public void setConnectionPoolStatistic(List<ConnectionPoolStatistic> connectionPoolStatistics) {
-        this.poolStatistics = connectionPoolStatistics;
+    public Set<ConnectionPoolStatistic> getPoolStatistics() {
+        return polling.poll();
     }
 }

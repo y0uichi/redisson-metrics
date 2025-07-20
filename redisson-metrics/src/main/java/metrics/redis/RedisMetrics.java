@@ -12,12 +12,4 @@ public interface RedisMetrics {
     void recordCommandBytesSent(String command, long size);
 
     void recordCommandBytesReceived(String command, long size);
-
-    int recordConnectionActive();
-
-    int recordConnectionTotal();
-
-    int recordConnectionIdle();
-
-    void setConnectionPoolStatistic(List<ConnectionPoolStatistic> connectionPoolStatistics);
 }

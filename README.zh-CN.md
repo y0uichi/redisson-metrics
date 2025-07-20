@@ -14,3 +14,24 @@ Redisson-metrics是一个专注于监控Redisson客户端性能的开源工具�
 - 命令执行延迟
 - 操作吞吐量
 - 错误率统计
+
+# 演示程序
+
+启动docker打开演示程序
+
+```bash
+$ docker compose up -d
+```
+
+
+
+# 使用
+Spring boot 引入依赖`spring-boot-started-redisson-metrics`。
+
+```xml
+<dependency>
+    <groupdId>metrics</groupdId>
+    <artifactId>spring-boot-started-redisson-metrics</artifactId>
+    <version>1.0.0-SNAPSHOT</version>
+</dependency>
+```

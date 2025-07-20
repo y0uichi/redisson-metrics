@@ -4,6 +4,8 @@ import io.micrometer.core.instrument.MeterRegistry;
 import javassist.CannotCompileException;
 import javassist.NotFoundException;
 import metrics.redis.redisson.RedissonInterceptor;
+import metrics.redis.redisson.connection.ConnectionPoolStatisticPolling;
+import metrics.redis.redisson.connection.DefaultClusterConnectionManagerHolder;
 import org.redisson.spring.starter.RedissonAutoConfiguration;
 import org.redisson.spring.starter.RedissonAutoConfigurationCustomizer;
 import org.springframework.beans.BeansException;
@@ -25,8 +27,13 @@ public class RedmeterAutoConfiguration {
     }
 
     @Bean
-    public ServerStartedListener serverStartedListener(MeterRegistry meterRegistry, ApplicationConfig applicationConfig) {
-        return new ServerStartedListener(meterRegistry, applicationConfig);
+    public ServerStartedListener serverStartedListener(MeterRegistry meterRegistry, ApplicationConfig applicationConfig, ConnectionPoolStatisticPolling polling) {
+        return new ServerStartedListener(meterRegistry, applicationConfig, polling);
+    }
+
+    @Bean
+    public ConnectionPoolStatisticPolling connectionPoolStatisticPolling() {
+        return DefaultClusterConnectionManagerHolder.INSTANCE;
     }
 
     @Bean

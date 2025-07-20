@@ -37,8 +37,4 @@ public class RedisListenerManager {
             listener.command(command);
         }
     }
-
-    public void notifyConnectionPool(List<ConnectionPoolStatistic> pool) {
-        listeners.forEach(r -> r.connectionPoolStatistic(pool));
-    }
 }

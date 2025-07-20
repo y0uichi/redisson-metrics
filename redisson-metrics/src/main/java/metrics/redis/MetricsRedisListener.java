@@ -19,9 +19,4 @@ public class MetricsRedisListener implements RedisListener {
 
         redisMetrics.recordCommandUsageMillis(execution.getName(), execution.getDuration());
     }
-
-    @Override
-    public void connectionPoolStatistic(List<ConnectionPoolStatistic> statistics) {
-        this.redisMetrics.setConnectionPoolStatistic(statistics);
-    }
 }

@@ -6,13 +6,11 @@ import io.netty.channel.ChannelHandlerContext;
 import javassist.*;
 import metrics.ObjectPool;
 import metrics.redis.redisson.client.Keys;
-import metrics.redis.redisson.connection.ClusterConnectionManagerHolder;
+import metrics.redis.redisson.connection.DefaultClusterConnectionManagerHolder;
 import org.redisson.client.RedisClientConfig;
 import org.redisson.client.RedisConnection;
 import org.redisson.client.protocol.CommandData;
-import org.redisson.client.protocol.RedisCommand;
 import org.redisson.command.RedisExecutor;
-import org.redisson.connection.ClientConnectionsEntry;
 import org.redisson.connection.ClusterConnectionManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -35,21 +33,21 @@ public class RedissonInterceptor {
         CtClass cc = cp.get("org.redisson.client.handler.CommandDecoder");
         CtMethod m = cc.getDeclaredMethod("decode");
 
-        m.insertBefore("redmeter.redis.redisson.RedissonInterceptor.commandDecodeBefore(ctx, in, out);");
-        m.insertAfter("redmeter.redis.redisson.RedissonInterceptor.commandDecodeAfter(ctx, in, out);");
+        m.insertBefore("metrics.redis.redisson.RedissonInterceptor.commandDecodeBefore(ctx, in, out);");
+        m.insertAfter("metrics.redis.redisson.RedissonInterceptor.commandDecodeAfter(ctx, in, out);");
         cc.toClass();
     }
 
     protected void interceptRedisExecutor() throws NotFoundException, CannotCompileException {
         CtClass cls = cp.get("org.redisson.command.RedisExecutor");
         CtMethod m = cls.getDeclaredMethod("execute");
-        m.insertBefore("redmeter.redis.redisson.RedissonInterceptor.redisExecutorExecute(this);");
+        m.insertBefore("metrics.redis.redisson.RedissonInterceptor.redisExecutorExecute(this);");
 
         CtMethod handleResult = cls.getDeclaredMethod("handleResult");
-        handleResult.insertBefore("redmeter.redis.redisson.RedissonInterceptor.redisExecutorHandleResult(this, connectionFuture);");
+        handleResult.insertBefore("metrics.redis.redisson.RedissonInterceptor.redisExecutorHandleResult(this, connectionFuture);");
 
         CtMethod sendCommand = cls.getDeclaredMethod("sendCommand");
-        handleResult.insertBefore("redmeter.redis.redisson.RedissonInterceptor.redisExecutorSendCommand(this, connectionFuture);");
+        handleResult.insertBefore("metrics.redis.redisson.RedissonInterceptor.redisExecutorSendCommand(this, connectionFuture);");
 
 
         cls.addMethod(CtNewMethod.make("public java.util.concurrent.CompletableFuture getMainPromise() {" +
@@ -67,13 +65,13 @@ public class RedissonInterceptor {
         cls.toClass();
     }
 
-    protected void interceptConnection() throws NotFoundException, CannotCompileException {
-        CtClass cls = cp.get("org.redisson.connection.pool.ConnectionPool");
-        CtMethod m = cls.getDeclaredMethod("acquireConnection");
-
-        m.insertAfter("redmeter.redis.redisson.RedissonInterceptor.acquireConnect(this, command, entry, $_);");
-        cls.toClass();
-    }
+//    protected void interceptConnection() throws NotFoundException, CannotCompileException {
+//        CtClass cls = cp.get("org.redisson.connection.pool.ConnectionPool");
+//        CtMethod m = cls.getDeclaredMethod("acquireConnection");
+//
+//        m.insertAfter("metrics.redis.redisson.RedissonInterceptor.acquireConnect(this, command, entry, $_);");
+//        cls.toClass();
+//    }
 
     protected void interceptRedisChannelInitializer()
         throws NotFoundException, CannotCompileException {
@@ -81,7 +79,7 @@ public class RedissonInterceptor {
         CtClass cls = cp.get("org.redisson.client.handler.RedisChannelInitializer");
         CtMethod m = cls.getDeclaredMethod("initChannel");
 
-        m.insertBefore("redmeter.redis.redisson.RedissonInterceptor.initChannel(config, ch);");
+        m.insertBefore("metrics.redis.redisson.RedissonInterceptor.initChannel(config, ch);");
         cls.toClass();
     }
 
@@ -91,8 +89,8 @@ public class RedissonInterceptor {
         CtClass cls = cp.get("org.redisson.client.handler.CommandEncoder");
         CtMethod m = cls.getDeclaredMethod("encode");
 
-        m.insertBefore("redmeter.redis.redisson.RedissonInterceptor.commandEncoderEncodeBefore(ctx, msg, out);");
-        m.insertAfter("redmeter.redis.redisson.RedissonInterceptor.commandEncoderEncodeAfter(ctx, msg, out);");
+        m.insertBefore("metrics.redis.redisson.RedissonInterceptor.commandEncoderEncodeBefore(ctx, msg, out);");
+        m.insertAfter("metrics.redis.redisson.RedissonInterceptor.commandEncoderEncodeAfter(ctx, msg, out);");
         cls.toClass();
     }
 
@@ -102,7 +100,7 @@ public class RedissonInterceptor {
         CtClass cls = cp.get("org.redisson.connection.ClusterConnectionManager");
 
         for (CtConstructor constructor : cls.getConstructors()) {
-            constructor.insertAfter("redmeter.redis.redisson.RedissonInterceptor.clusterConnectionManager(this);");
+            constructor.insertAfter("metrics.redis.redisson.RedissonInterceptor.clusterConnectionManager(this);");
         }
 
 
@@ -146,23 +144,16 @@ public class RedissonInterceptor {
     }
 
     public static <V, R> void redisExecutorHandleResult(RedisExecutor<V, R> executor, CompletableFuture<RedisConnection> connectionFuture) {
-        RedisConnection connection = connectionFuture.join();
-//        logger.info("handle result channel {}", connection.getChannel().id());
-    }
-
-    public static <T extends RedisConnection> void acquireConnect(Object pool, RedisCommand<?> command, ClientConnectionsEntry entry, CompletableFuture future) {
-        future.whenComplete((r, ex) -> {
-        });
     }
 
     public static void clusterConnectionManager(ClusterConnectionManager clusterConnectionManager) {
-        ClusterConnectionManagerHolder.INSTANCE.add(clusterConnectionManager);
+        DefaultClusterConnectionManagerHolder.INSTANCE.add(clusterConnectionManager);
     }
 
     public static void init() throws NotFoundException, CannotCompileException {
         INSTANCE.interceptCommandDecoder();
         INSTANCE.interceptRedisExecutor();
-        INSTANCE.interceptConnection();
+//        INSTANCE.interceptConnection();
         INSTANCE.interceptRedisChannelInitializer();
         INSTANCE.interceptCommandEnter();
         INSTANCE.interceptClusterConnectionManager();
