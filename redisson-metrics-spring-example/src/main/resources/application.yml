@@ -23,9 +23,9 @@ spring:
           subscriptionConnectionMinimumIdleSize: 1
           subscriptionConnectionPoolSize: 10
           slaveConnectionMinimumIdleSize: 10
-          slaveConnectionPoolSize: 500
+          slaveConnectionPoolSize: 20
           masterConnectionMinimumIdleSize: 10
-          masterConnectionPoolSize: 500
+          masterConnectionPoolSize: 20
           readMode: "SLAVE"
           subscriptionMode: "SLAVE"
           nodeAddresses:

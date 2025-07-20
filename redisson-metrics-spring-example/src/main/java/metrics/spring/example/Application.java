@@ -37,7 +37,7 @@ class ExperimentMeasureBuilder {
         }
 
         int getIndex = -1;
-        for (int j = 0, size = new Random().nextInt(200); j < size; j++) {
+        for (int j = 0, size = new Random().nextInt(100); j < size; j++) {
             getIndex = counterBucket.get();
         }
 
@@ -75,7 +75,7 @@ public class Application {
 
     void submitTaskToThreadPool() {
         taskExecutor1.submit(() -> {
-            for (int i = 0; i < 500  ; i++) {
+            for (int i = 0; i < 10  ; i++) {
 
                 int finalIndex = i;
                 taskExecutor1.submit(() -> {

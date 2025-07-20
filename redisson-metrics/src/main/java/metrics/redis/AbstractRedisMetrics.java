@@ -22,6 +22,10 @@ public abstract class AbstractRedisMetrics {
 
     public final static String METRIC_NAME_COMMAND_SIZE = METRIC_NAME_PREFIX + ".redis.command.size";
 
+    public final static String METRIC_NAME_COMMAND_COUNTER = METRIC_NAME_PREFIX + ".redis.command.counter";
+
+    public final static String METRIC_NAME_COMMAND_TIMER = METRIC_NAME_PREFIX + ".redis.command.timer";
+
     protected final MeterRegistry registry;
 
     protected final Gauge activeConnectionGauge;
@@ -107,8 +111,7 @@ public abstract class AbstractRedisMetrics {
 
     protected Counter getCommandCounter(String commandName) {
         return commandCounters.computeIfAbsent(commandName, name ->
-            Counter.builder("redis.command.counter")
-                .description("test")
+            Counter.builder(METRIC_NAME_COMMAND_COUNTER)
                 .tag("command", name)
                 .tags(tags)
                 .register(registry)
@@ -117,8 +120,7 @@ public abstract class AbstractRedisMetrics {
 
     protected Timer getCommandUsage(String commandName) {
         return commandUsages.computeIfAbsent(commandName, name ->
-            Timer.builder("redis.command.timer")
-                .description("test")
+            Timer.builder(METRIC_NAME_COMMAND_TIMER)
                 .publishPercentiles(0.5, 0.75, 0.95, 0.99)
                 .publishPercentileHistogram()
                 .tag("command", name)
