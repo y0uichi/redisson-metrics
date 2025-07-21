@@ -1,7 +1,7 @@
 package metrics.spring.example.infrastructures;
 
-import metrics.spring.example.domain.model.Account;
-import metrics.spring.example.domain.model.AccountRepository;
+import metrics.spring.example.domain.model.account.Account;
+import metrics.spring.example.domain.model.account.AccountRepository;
 import org.redisson.api.RBucket;
 import org.redisson.api.RSet;
 import org.redisson.api.RedissonClient;
@@ -32,5 +32,10 @@ public class AccountRedisRepository implements AccountRepository {
         identities.add(account.getId());
 
         return account;
+    }
+
+    @Override
+    public int getSize() {
+        return client.getSet("accounts").size();
     }
 }

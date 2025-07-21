@@ -1,4 +1,4 @@
-package metrics.spring.example.domain.model;
+package metrics.spring.example.domain.model.account;
 
 import lombok.Builder;
 import lombok.Data;

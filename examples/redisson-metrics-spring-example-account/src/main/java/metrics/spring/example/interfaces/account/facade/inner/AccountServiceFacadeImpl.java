@@ -1,7 +1,7 @@
 package metrics.spring.example.interfaces.account.facade.inner;
 
 import metrics.spring.example.application.AccountService;
-import metrics.spring.example.domain.model.Account;
+import metrics.spring.example.domain.model.account.Account;
 import metrics.spring.example.interfaces.account.facade.AccountServiceFacade;
 import metrics.spring.example.interfaces.account.facade.dto.AccountDTO;
 import metrics.spring.example.interfaces.account.facade.inner.assembler.AccountDTOAssembler;
@@ -22,5 +22,10 @@ public class AccountServiceFacadeImpl implements AccountServiceFacade {
         Account model = assembler.toDTO(account);
         model = accountService.create(model);
         return assembler.from(model);
+    }
+
+    @Override
+    public int generateAccounts(int total) {
+        return accountService.generateAccounts(total);
     }
 }

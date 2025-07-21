@@ -1,6 +1,6 @@
 package metrics.spring.example.interfaces.account.facade.inner.assembler;
 
-import metrics.spring.example.domain.model.Account;
+import metrics.spring.example.domain.model.account.Account;
 import metrics.spring.example.interfaces.account.facade.dto.AccountDTO;
 
 public class AccountDTOAssembler {
