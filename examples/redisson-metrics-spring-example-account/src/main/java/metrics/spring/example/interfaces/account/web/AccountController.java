@@ -3,10 +3,9 @@ package metrics.spring.example.interfaces.account.web;
 import metrics.spring.example.interfaces.account.facade.AccountServiceFacade;
 import metrics.spring.example.interfaces.account.facade.dto.AccountDTO;
 import metrics.spring.example.interfaces.account.facade.dto.CreateBatchAccount;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping
@@ -26,5 +25,10 @@ public class AccountController {
     @PostMapping("/batch")
     public int create(@RequestBody CreateBatchAccount batch) {
         return accountServiceFacade.generateAccounts(batch.getTotal());
+    }
+
+    @GetMapping("/batch/{size}")
+    public List<AccountDTO> pickAccounts(@PathVariable int size) {
+        return accountServiceFacade.pickAccounts(size);
     }
 }

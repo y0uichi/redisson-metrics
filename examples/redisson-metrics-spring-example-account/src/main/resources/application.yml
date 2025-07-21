@@ -1,13 +1,9 @@
-#server:
-#  port: 8081
-
 spring:
   application:
-    name: redmeter-spring-example
+    name: account
 
   redis:
     host: localhost
-#    port:
 
 management:
   endpoints:

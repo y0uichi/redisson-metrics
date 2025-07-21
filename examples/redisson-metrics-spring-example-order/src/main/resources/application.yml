@@ -1,9 +1,6 @@
-#server:
-#  port: 8081
-
 spring:
   application:
-    name: redmeter-spring-example
+    name: order
 
   redis:
     redisson:

@@ -8,6 +8,7 @@ import metrics.spring.example.domain.model.id.IdRepository;
 import org.springframework.stereotype.Component;
 
 import java.math.BigDecimal;
+import java.util.List;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.LinkedBlockingDeque;
 import java.util.concurrent.ThreadPoolExecutor;
@@ -72,5 +73,10 @@ public class AccountServiceImpl implements AccountService {
         }
 
         return total - allAccounts;
+    }
+
+    @Override
+    public List<Account> pickAccounts(int size) {
+        return accountRepository.pickAccounts(size);
     }
 }

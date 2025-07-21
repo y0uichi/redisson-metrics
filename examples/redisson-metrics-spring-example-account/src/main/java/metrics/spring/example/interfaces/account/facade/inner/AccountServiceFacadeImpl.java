@@ -7,6 +7,8 @@ import metrics.spring.example.interfaces.account.facade.dto.AccountDTO;
 import metrics.spring.example.interfaces.account.facade.inner.assembler.AccountDTOAssembler;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
+
 @Component
 public class AccountServiceFacadeImpl implements AccountServiceFacade {
 
@@ -27,5 +29,11 @@ public class AccountServiceFacadeImpl implements AccountServiceFacade {
     @Override
     public int generateAccounts(int total) {
         return accountService.generateAccounts(total);
+    }
+
+    @Override
+    public List<AccountDTO> pickAccounts(int size) {
+        AccountDTOAssembler assembler = new AccountDTOAssembler();
+        return assembler.toDTO(accountService.pickAccounts(size));
     }
 }

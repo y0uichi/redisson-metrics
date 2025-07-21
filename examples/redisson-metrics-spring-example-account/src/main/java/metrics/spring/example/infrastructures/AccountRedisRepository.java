@@ -8,6 +8,10 @@ import org.redisson.api.RedissonClient;
 import org.springframework.stereotype.Component;
 
 import java.math.BigDecimal;
+import java.util.Collections;
+import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @Component
 public class AccountRedisRepository implements AccountRepository {
@@ -32,6 +36,19 @@ public class AccountRedisRepository implements AccountRepository {
         identities.add(account.getId());
 
         return account;
+    }
+
+    @Override
+    public List<Account> pickAccounts(int size) {
+        RSet<Long> identities =  client.getSet("accounts");
+        Set<Long> batch = identities.random(size);
+        return batch
+            .stream()
+            .map(id -> {
+                RBucket<BigDecimal> balance = client.getBucket(String.format("balance:%d", id));
+                return Account.builder().id(id).balance(balance.get()).build();
+            })
+            .collect(Collectors.toList());
     }
 
     @Override
