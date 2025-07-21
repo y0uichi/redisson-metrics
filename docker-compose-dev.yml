@@ -1,0 +1,65 @@
+version: '3'
+
+services:
+  redis-standalone:
+    image: redis
+    container_name: redis-standalone
+    command: redis-server /usr/local/etc/redis/redis.conf --bind 0.0.0.0
+    ports:
+      - "6379:6379"
+    networks:
+      - redis-cluster
+    deploy:
+      resources:
+        limits:
+          cpus: '0.01'
+          memory: 32M
+        reservations:
+          cpus: '0.01'
+          memory: 32M
+    volumes:
+      - ./prometheus/redis.conf:/usr/local/etc/redis/redis.conf
+
+  prometheus:
+    image: prom/prometheus:latest
+    container_name: prometheus
+    user: root
+    ports:
+      - "9090:9090"
+    volumes:
+      - ./prometheus:/etc/prometheus
+      - prometheus_data:/prometheus
+      - /var/run/docker.sock:/var/run/docker.sock
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yml'
+      - '--storage.tsdb.path=/prometheus'
+      - '--web.console.libraries=/usr/share/prometheus/console_libraries'
+      - '--web.console.templates=/usr/share/prometheus/consoles'
+    restart: unless-stopped
+    networks:
+      - redis-cluster
+    depends_on:
+      - redis-standalone
+
+  grafana:
+    image: grafana/grafana:latest
+    container_name: grafana
+    ports:
+      - "3000:3000"
+    volumes:
+      - grafana_data:/var/lib/grafana
+    environment:
+      - GF_SECURITY_ADMIN_USER=admin
+      - GF_SECURITY_ADMIN_PASSWORD=admin
+    depends_on:
+      - prometheus
+    networks:
+      - redis-cluster
+    restart: unless-stopped
+networks:
+  redis-cluster:
+    driver: bridge
+
+volumes:
+  prometheus_data:
+  grafana_data:
