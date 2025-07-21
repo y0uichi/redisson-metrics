@@ -11,16 +11,13 @@ scrape_configs:
     docker_sd_configs:
       - host: unix:///var/run/docker.sock
     relabel_configs:
-      # 只采集有 prometheus.scrape=true 的容器
       - source_labels: [ __meta_docker_container_label_prometheus_scrape ]
         action: keep
         regex: 'true'
-      # 获取端口（如自定义了 prometheus.port）
       - source_labels: [ __address__, __meta_docker_container_label_prometheus_port ]
         regex: '([^:]+):\d+;(\d+)'
         replacement: '$1:$2'
         target_label: __address__
-      # 设置指标路径（如自定义了 prometheus.metrics_path）
       - source_labels: [ __meta_docker_container_label_prometheus_metrics_path ]
         target_label: __metrics_path__
         regex: '(.+)'

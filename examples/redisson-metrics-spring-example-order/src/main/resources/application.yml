@@ -3,49 +3,7 @@ spring:
     name: order
 
   redis:
-    redisson:
-      config: |
-        clusterServersConfig:
-          idleConnectionTimeout: 10000
-          connectTimeout: 10000
-          timeout: 3000
-          retryAttempts: 3
-          retryInterval: 1500
-          failedSlaveReconnectionInterval: 3000
-          failedSlaveCheckInterval: 60000
-          password: null
-          subscriptionsPerConnection: 5
-          clientName: null
-          loadBalancer: !<org.redisson.connection.balancer.RoundRobinLoadBalancer> {}
-          subscriptionConnectionMinimumIdleSize: 1
-          subscriptionConnectionPoolSize: 10
-          slaveConnectionMinimumIdleSize: 10
-          slaveConnectionPoolSize: 20
-          masterConnectionMinimumIdleSize: 10
-          masterConnectionPoolSize: 20
-          readMode: "SLAVE"
-          subscriptionMode: "SLAVE"
-          nodeAddresses:
-          - "redis://127.0.0.1:6379"
-          - "redis://127.0.0.1:6380"
-          - "redis://127.0.0.1:6381"
-          - "redis://127.0.0.1:6382"
-          - "redis://127.0.0.1:6383"
-          - "redis://127.0.0.1:6384"
-          - "redis://127.0.0.1:6385"
-          - "redis://127.0.0.1:6386"
-          - "redis://127.0.0.1:6387"
-          - "redis://127.0.0.1:6388"
-          - "redis://127.0.0.1:6389"
-          - "redis://127.0.0.1:6390"
-          scanInterval: 1000
-          pingConnectionInterval: 0
-          keepAlive: false
-          tcpNoDelay: false
-        threads: 16
-        nettyThreads: 32
-        codec: !<org.redisson.codec.Kryo5Codec> {}
-        transportMode: "NIO"
+    host: localhost
 
 management:
   endpoints:

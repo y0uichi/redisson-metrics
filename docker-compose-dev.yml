@@ -27,7 +27,7 @@ services:
     ports:
       - "9090:9090"
     volumes:
-      - ./prometheus:/etc/prometheus
+      - ./attachments/dev/prometheus:/etc/prometheus
       - prometheus_data:/prometheus
       - /var/run/docker.sock:/var/run/docker.sock
     command:
