@@ -25,4 +25,4 @@ management:
 logging:
   level:
     root: info
-    redmeter: debug
+    metrics: debug
