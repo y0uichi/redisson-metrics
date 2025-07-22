@@ -6,12 +6,13 @@ import io.netty.channel.ChannelHandlerContext;
 import javassist.*;
 import metrics.ObjectPool;
 import metrics.redis.redisson.client.Keys;
-import metrics.redis.redisson.connection.DefaultClusterConnectionManagerHolder;
+import metrics.redis.redisson.connection.ConnectionManagerHolder;
 import org.redisson.client.RedisClientConfig;
 import org.redisson.client.RedisConnection;
 import org.redisson.client.protocol.CommandData;
 import org.redisson.command.RedisExecutor;
 import org.redisson.connection.ClusterConnectionManager;
+import org.redisson.connection.MasterSlaveConnectionManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -108,8 +109,14 @@ public class RedissonInterceptor {
             constructor.insertAfter("metrics.redis.redisson.RedissonInterceptor.clusterConnectionManager(this);");
         }
 
+        CtClass masterSlaveConnectionManagerClass = cp.get("org.redisson.connection.SingleConnectionManager");
+
+        for (CtConstructor constructor : masterSlaveConnectionManagerClass.getConstructors()) {
+            constructor.insertAfter("metrics.redis.redisson.RedissonInterceptor.masterSlaveConnectionManager(this);");
+        }
 
         cls.toClass();
+        masterSlaveConnectionManagerClass.toClass();
     }
 
     public static void commandEncoderEncodeBefore(ChannelHandlerContext ctx, CommandData<?, ?> msg, ByteBuf out) {
@@ -152,7 +159,11 @@ public class RedissonInterceptor {
     }
 
     public static void clusterConnectionManager(ClusterConnectionManager clusterConnectionManager) {
-        DefaultClusterConnectionManagerHolder.INSTANCE.add(clusterConnectionManager);
+        ConnectionManagerHolder.INSTANCE.add(clusterConnectionManager);
+    }
+
+    public static void masterSlaveConnectionManager(MasterSlaveConnectionManager clusterConnectionManager) {
+        ConnectionManagerHolder.INSTANCE.add(clusterConnectionManager);
     }
 
     public static void init() throws NotFoundException, CannotCompileException {
