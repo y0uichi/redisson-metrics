@@ -17,3 +17,15 @@
 * エラー率の統計
 
 ![Screenshot](./docs/screenshot.png)
+
+# 使用方法
+
+アプリケーションに `spring-boot-starter-redisson-metrics` の依存関係を追加します。
+
+```xml
+<dependency>
+    <groupId>metrics</groupId>
+    <artifactId>spring-boot-starter-redisson-metrics</artifactId>
+    <version>1.0.0-SNAPSHOT</version>
+</dependency>
+```

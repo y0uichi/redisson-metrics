@@ -18,3 +18,15 @@
 * Error rate statistics
 
 ![Screenshot](./docs/screenshot.png)
+
+# Usage
+
+Add the dependency `spring-boot-starter-redisson-metrics` to your application.
+
+```xml
+<dependency>
+    <groupId>metrics</groupId>
+    <artifactId>spring-boot-starter-redisson-metrics</artifactId>
+    <version>1.0.0-SNAPSHOT</version>
+</dependency>
+```
