@@ -16,3 +16,5 @@
 * Command execution latency
 * Operation throughput
 * Error rate statistics
+
+![Screenshot](./docs/screenshot.png)

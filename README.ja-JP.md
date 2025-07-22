@@ -15,3 +15,5 @@
 * コマンド実行の遅延
 * 処理スループット
 * エラー率の統計
+
+![Screenshot](./docs/screenshot.png)

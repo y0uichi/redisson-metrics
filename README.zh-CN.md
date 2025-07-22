@@ -35,3 +35,5 @@ Spring boot 引入依赖`spring-boot-started-redisson-metrics`。
     <version>1.0.0-SNAPSHOT</version>
 </dependency>
 ```
+
+![Screenshot](./docs/screenshot.png)

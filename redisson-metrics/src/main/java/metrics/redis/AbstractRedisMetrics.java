@@ -133,9 +133,9 @@ public abstract class AbstractRedisMetrics {
         return commandSize.computeIfAbsent(key, _key ->
             DistributionSummary
                 .builder(METRIC_NAME_COMMAND_SIZE)
-                .tag("ip", ListenerIP.INSTANCE.toString())
                 .tag("command", commandName)
                 .tag("type", type)
+                .tags(tags)
                 .publishPercentileHistogram()
                 .serviceLevelObjectives(50, 95, 99)
                 .baseUnit("bytes")
