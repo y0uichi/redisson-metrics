@@ -1,3 +1,5 @@
+[简体中文](./README.zh-CN.md) | [English](./README.md) | [日本語](./README.ja-JP.md)
+
 # Redisson-metrics
 
 Redisson-metrics是一个专注于监控Redisson客户端性能的开源工具。通过收集和展示关键运行指标,帮助开发者更好地了解和优化Redis应用。

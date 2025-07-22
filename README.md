@@ -1,3 +1,4 @@
+[简体中文](./README.zh-CN.md) | [English](./README.md) | [日本語](./README.ja-JP.md)
 
 # Redisson-metrics
 
