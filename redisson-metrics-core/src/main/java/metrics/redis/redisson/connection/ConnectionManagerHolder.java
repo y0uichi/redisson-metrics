@@ -1,7 +1,10 @@
 package metrics.redis.redisson.connection;
 
 import metrics.redis.ConnectionPoolStatistic;
-import org.redisson.connection.*;
+import org.redisson.connection.ClientConnectionsEntry;
+import org.redisson.connection.ConnectionManager;
+import org.redisson.connection.ConnectionsHolder;
+import org.redisson.connection.MasterSlaveEntry;
 
 import java.net.InetSocketAddress;
 import java.util.Collection;

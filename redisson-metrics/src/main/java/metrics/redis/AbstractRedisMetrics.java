@@ -1,13 +1,14 @@
 package metrics.redis;
 
 import io.micrometer.core.instrument.*;
-import io.micrometer.core.instrument.Timer;
 import metrics.infra.ListenerIP;
 import metrics.redis.redisson.connection.ConnectionPoolStatisticPolling;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.*;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
 public abstract class AbstractRedisMetrics {

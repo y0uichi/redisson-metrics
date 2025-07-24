@@ -1,7 +1,6 @@
 package metrics.redis;
 
 import java.time.Duration;
-import java.util.List;
 
 public interface RedisMetrics {
 

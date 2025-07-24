@@ -1,7 +1,5 @@
 package metrics.redis;
 
-import java.util.List;
-
 public class MetricsRedisListener implements RedisListener {
 
     RedisMetrics redisMetrics;

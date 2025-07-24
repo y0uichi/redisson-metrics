@@ -1,10 +1,8 @@
 package metrics.redis.impl;
 
-import metrics.redis.ConnectionPoolStatistic;
 import metrics.redis.RedisCommand;
 import metrics.redis.RedisListener;
 
-import java.util.List;
 import java.util.Set;
 import java.util.concurrent.CopyOnWriteArraySet;
 
