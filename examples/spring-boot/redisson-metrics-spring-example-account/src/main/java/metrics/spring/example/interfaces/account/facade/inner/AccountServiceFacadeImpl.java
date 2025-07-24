@@ -27,6 +27,12 @@ public class AccountServiceFacadeImpl implements AccountServiceFacade {
     }
 
     @Override
+    public AccountDTO get(Long id) {
+        AccountDTOAssembler assembler = new AccountDTOAssembler();
+        return assembler.from(accountService.get(id));
+    }
+
+    @Override
     public int generateAccounts(int total) {
         return accountService.generateAccounts(total);
     }

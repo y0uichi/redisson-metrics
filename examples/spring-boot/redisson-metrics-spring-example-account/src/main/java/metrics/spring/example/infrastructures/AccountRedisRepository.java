@@ -38,6 +38,13 @@ public class AccountRedisRepository implements AccountRepository {
     }
 
     @Override
+    public Account get(Long id) {
+        RSet<Long> identities =  client.getSet("accounts");
+        RBucket<BigDecimal> balance = client.getBucket(String.format("balance:%d", id));
+        return Account.builder().id(id).balance(balance.get()).build();
+    }
+
+    @Override
     public List<Account> pickAccounts(int size) {
         RSet<Long> identities =  client.getSet("accounts");
         Set<Long> batch = identities.random(size);

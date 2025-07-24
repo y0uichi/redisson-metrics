@@ -17,6 +17,11 @@ public class AccountController {
         this.accountServiceFacade = accountServiceFacade;
     }
 
+    @GetMapping("/{id}")
+    public AccountDTO get(@PathVariable("id") Long id) {
+        return accountServiceFacade.get(id);
+    }
+
     @PostMapping
     public AccountDTO create(@RequestBody AccountDTO account) {
         return accountServiceFacade.create(account);

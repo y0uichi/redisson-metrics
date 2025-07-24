@@ -8,6 +8,8 @@ public interface AccountServiceFacade {
 
     AccountDTO create(AccountDTO account);
 
+    AccountDTO get(Long id);
+
     int generateAccounts(int total);
 
     List<AccountDTO> pickAccounts(int size);

@@ -6,6 +6,8 @@ public interface AccountRepository {
 
     Account create(Account account);
 
+    Account get(Long id);
+
     List<Account> pickAccounts(int size);
 
     int getSize();

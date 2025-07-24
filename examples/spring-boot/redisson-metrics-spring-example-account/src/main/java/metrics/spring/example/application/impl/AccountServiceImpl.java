@@ -34,7 +34,7 @@ public class AccountServiceImpl implements AccountService {
 
     @Override
     public Account get(Long id) {
-        return null;
+        return accountRepository.get(id);
     }
 
     public int generateAccounts(int total) {

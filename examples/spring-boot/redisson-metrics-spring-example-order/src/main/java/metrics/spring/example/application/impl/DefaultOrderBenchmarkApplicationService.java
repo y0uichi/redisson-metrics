@@ -50,6 +50,7 @@ public class DefaultOrderBenchmarkApplicationService implements OrderBenchmarkAp
     }
 
     protected void execute(AccountDTO accountDTO) {
-        
+        AccountDTO account = accountService.get(accountDTO.getId());
+
     }
 }

@@ -10,7 +10,9 @@ import java.util.List;
 @FeignClient(name = "account-service", url = "${services.account.url}")
 public interface AccountService {
 
+    @GetMapping("/{id}")
+    AccountDTO get(@PathVariable("id") Long id);
+
     @GetMapping("/batch/{size}")
-//    @RequestLine("GET /batch/{size}")
     List<AccountDTO> pickAccounts(@PathVariable("size") int size);
 }
