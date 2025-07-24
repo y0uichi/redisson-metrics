@@ -1,10 +1,10 @@
-package metrics.spring.example.interfaces.account.facade.inner;
+package metrics.spring.example.interfaces.account.facade.internal;
 
 import metrics.spring.example.application.AccountService;
 import metrics.spring.example.domain.model.account.Account;
 import metrics.spring.example.interfaces.account.facade.AccountServiceFacade;
 import metrics.spring.example.interfaces.account.facade.dto.AccountDTO;
-import metrics.spring.example.interfaces.account.facade.inner.assembler.AccountDTOAssembler;
+import metrics.spring.example.interfaces.account.facade.internal.assembler.AccountDTOAssembler;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
