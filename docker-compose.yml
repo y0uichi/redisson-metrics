@@ -1,6 +1,33 @@
 version: '3'
 
 services:
+  redis-cluster-bootstrapper:
+    build:
+      context: ./redis-cluster-bootstrapper
+    container_name: redis-cluster-bootstrapper
+    ports:
+      - "8081:80"
+    networks:
+      - redis-cluster
+    depends_on:
+      - redis-master-1
+      - redis-master-2
+      - redis-master-3
+      - redis-slave-1
+      - redis-slave-2
+      - redis-slave-3
+      - redis-slave-4
+      - redis-slave-5
+      - redis-slave-6
+      - redis-slave-7
+      - redis-slave-8
+      - redis-slave-9
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:80/"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
   account:
     image: account
     deploy:
@@ -16,6 +43,9 @@ services:
       interval: 30s
       timeout: 5s
       retries: 3
+    depends_on:
+      redis-cluster-bootstrapper:
+        condition: service_healthy
 
     networks:
       - redis-cluster
@@ -35,6 +65,9 @@ services:
       interval: 30s
       timeout: 5s
       retries: 3
+    depends_on:
+      redis-cluster-bootstrapper:
+        condition: service_healthy
 
     networks:
       - redis-cluster
