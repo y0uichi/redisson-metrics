@@ -1,8 +1,8 @@
 [简体中文](./README.zh-CN.md) | [English](./README.md) | [日本語](./README.ja-JP.md)
 
-# Redisson-metrics
+# Redisight
 
-Redisson-metrics是一个专注于监控Redisson客户端性能的开源工具。通过收集和展示关键运行指标,帮助开发者更好地了解和优化Redis应用。
+**Redisight**是一个专注于监控Redisson客户端性能的开源工具。通过收集和展示关键运行指标,帮助开发者更好地了解和优化Redis应用。
 
 # 功能特点
 - 实时监控Redisson客户端性能指标
@@ -21,12 +21,12 @@ Redisson-metrics是一个专注于监控Redisson客户端性能的开源工具�
 
 # 使用
 
-应用引入依赖`spring-boot-started-redisson-metrics`。
+应用引入依赖`spring-boot-started-redisight-redisson`。
 
 ```xml
 <dependency>
-    <groupId>metrics</groupId>
-    <artifactId>spring-boot-starter-redisson-metrics</artifactId>
+    <groupId>redisight</groupId>
+    <artifactId>spring-boot-starter-redisight-redisson</artifactId>
     <version>1.0.0-SNAPSHOT</version>
 </dependency>
 ```

@@ -1,8 +1,8 @@
 [简体中文](./README.zh-CN.md) | [English](./README.md) | [日本語](./README.ja-JP.md)
 
-# Redisson-metrics
+# Redisight
 
-**Redisson-metrics** は、Redissonクライアントのパフォーマンス監視に特化したオープンソースツールです。主要な実行時メトリクスを収集・表示することで、開発者がRedisアプリケーションをより深く理解し、最適化するのに役立ちます。
+**Redisight** は、Redissonクライアントのパフォーマンス監視に特化したオープンソースツールです。主要な実行時メトリクスを収集・表示することで、開発者がRedisアプリケーションをより深く理解し、最適化するのに役立ちます。
 
 ## 特徴
 
@@ -22,12 +22,12 @@
 
 # 使用方法
 
-アプリケーションに `spring-boot-starter-redisson-metrics` の依存関係を追加します。
+アプリケーションに `spring-boot-starter-redisight-redisson` の依存関係を追加します。
 
 ```xml
 <dependency>
     <groupId>metrics</groupId>
-    <artifactId>spring-boot-starter-redisson-metrics</artifactId>
+    <artifactId>spring-boot-starter-redisight-redisson</artifactId>
     <version>1.0.0-SNAPSHOT</version>
 </dependency>
 ```
