@@ -1,14 +1,17 @@
 #!/bin/bash
 
-# Check if a prefix argument is provided
-if [ -z "$1" ]; then
-  echo "Usage: $0 <container_name_prefix>"
+# Check if at least one prefix argument is provided
+if [ $# -eq 0 ]; then
+  echo "Usage: $0 <container_name_prefix1> [<container_name_prefix2> ...]"
+  echo "Example: $0 redis prometheus"
   exit 1
 fi
 
-PREFIX="$1"
+# Process each prefix argument
+for PREFIX in "$@"; do
+  echo "Removing containers with prefix: ${PREFIX}"
+  # Find and remove all containers whose names contain the specified prefix
+  docker ps -a --filter "name=${PREFIX}" --format "{{.ID}}" | xargs -r docker rm -f
+done
 
-# Find and remove all containers whose names contain the specified prefix
-docker ps -a --filter "name=${PREFIX}" --format "{{.ID}}" | xargs -r docker rm -f
-
-echo "All containers with names containing the prefix '${PREFIX}' have been removed."
+echo "All containers with the specified prefixes have been removed."
