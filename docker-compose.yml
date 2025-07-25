@@ -1,6 +1,25 @@
 version: '3'
 
 services:
+  account:
+    image: account
+    deploy:
+      replicas: 3
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+    labels:
+      - "prometheus.scrape=true"
+      - "prometheus.metrics_path=/actuator/prometheus"
+      - "prometheus.port=8080"
+    healthcheck:
+      test: [ "CMD", "curl", "-f", "http://localhost:8080/actuator/health" ]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+
+    networks:
+      - redis-cluster
+
   order:
     image: order
     deploy:

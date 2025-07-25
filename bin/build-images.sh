@@ -6,8 +6,8 @@ echo "🔨 Building all modules with Maven..."
 mvn clean package -DskipTests
 
 modules=(
-  "order:examples/redisson-metrics-spring-example-order"
-  "account:examples/redisson-metrics-spring-example-account"
+  "order:examples/spring-boot/redisson-metrics-spring-example-order"
+  "account:examples/spring-boot/redisson-metrics-spring-example-account"
 )
 
 DOCKERFILE=Dockerfile
